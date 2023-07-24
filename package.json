@@ -6,9 +6,9 @@
     "lint": "prettier -c ./",
     "lint:fix": "prettier -w ./",
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "start:android": "expo start --android",
+    "start:ios": "expo start --ios",
+    "start:web": "expo start --web"
   },
   "dependencies": {
     "expo": "~49.0.4",
