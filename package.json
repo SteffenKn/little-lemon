@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "lint": "prettier -c ./",
+    "lint:fix": "prettier -w ./",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -17,6 +19,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@types/react": "~18.2.15",
+    "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   },
   "private": true
