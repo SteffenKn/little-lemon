@@ -8,7 +8,6 @@ type Props = {
   style: StyleProp<ViewStyle>;
 };
 
-// TODO: Fix type
 export function Footer({children, style}: Props) {
   const inset = useSafeAreaInsets();
 
