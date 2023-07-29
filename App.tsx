@@ -8,7 +8,7 @@ import {Provider as StateProvider, useDispatch, useSelector} from 'react-redux';
 
 import {store, recoverState} from '@utils';
 import {GeneralState, Profile} from '@types';
-import {OnboardingScreen, ProfileScreen, SplashScreen} from '@screens';
+import {HomeScreen, OnboardingScreen, ProfileScreen, SplashScreen} from '@screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,7 +43,14 @@ export function Main() {
             headerShown: false,
           }}
         >
-          {onboardingCompleted ? <Stack.Screen name='Profile' component={ProfileScreen} /> : <Stack.Screen name='Onboarding' component={OnboardingScreen} />}
+          {onboardingCompleted ? (
+            <>
+              <Stack.Screen name='Home' component={HomeScreen} />
+              <Stack.Screen name='Profile' component={ProfileScreen} />
+            </>
+          ) : (
+            <Stack.Screen name='Onboarding' component={OnboardingScreen} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
