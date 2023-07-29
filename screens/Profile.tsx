@@ -19,11 +19,13 @@ export function ProfileScreen() {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0,
+      base64: true,
     });
 
     if (!result.canceled) {
-      dispatch(setAvatar(result.assets[0].uri));
+      const image = `data:image/jpg;base64,${result.assets[0].base64!}`;
+      dispatch(setAvatar(image));
     }
   };
 

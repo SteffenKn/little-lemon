@@ -2,7 +2,6 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {AntDesign} from '@expo/vector-icons';
 import {Avatar} from './avatar';
-import {useEffect} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
