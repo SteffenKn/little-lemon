@@ -3,16 +3,30 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {AntDesign} from '@expo/vector-icons';
 import {Avatar} from './avatar';
 import {useEffect} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export function Header({showBack = false, showAvatar = false}) {
   const inset = useSafeAreaInsets();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const canGoBack = navigation.canGoBack();
+  const route = useRoute();
+
+  const avatarClicked = () => {
+    const isOnProfile = route.name === 'Profile';
+    if (isOnProfile) {
+      return;
+    }
+
+    navigation.navigate('Profile');
+  };
 
   return (
     <View style={styles.container}>
       <View style={[styles.contentContainer, {marginTop: inset.top}]}>
         <View style={styles.left}>
           {showBack && (
-            <Pressable style={[styles.backButton, styles.backButtonDisabled]} onPress={() => {}} disabled={true}>
+            <Pressable style={[styles.backButton, !canGoBack && styles.backButtonDisabled]} onPress={navigation.goBack} disabled={!canGoBack}>
               <AntDesign name='arrowleft' size={24} color='white' />
             </Pressable>
           )}
@@ -20,7 +34,13 @@ export function Header({showBack = false, showAvatar = false}) {
         <View style={styles.center}>
           <Image style={styles.icon} source={require('../img/logo.png')} resizeMode='cover' />
         </View>
-        <View style={styles.right}>{showAvatar && <Avatar style={styles.avatar} />}</View>
+        <View style={styles.right}>
+          {showAvatar && (
+            <Pressable onPress={avatarClicked}>
+              <Avatar style={styles.avatar} />
+            </Pressable>
+          )}
+        </View>
       </View>
     </View>
   );
