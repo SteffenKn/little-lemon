@@ -1,18 +1,17 @@
-import {useState} from 'react';
-import {View, StyleSheet, Text, TextInput, Pressable} from 'react-native';
+import {View, StyleSheet, Text, Image, Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {setNameState, setEmailState, Validator} from '@utils';
-import {Header, Footer} from '@components';
+import {setFirstName, setEmail, Validator, setOnboardingCompleted} from '@utils';
+import {Footer, Header, LemonInput} from '@components';
+import {GeneralState, Profile} from '@types';
 
 export function OnboardingScreen() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-
   const dispatch = useDispatch();
 
-  const nameIsValid = Validator.validateName(name);
+  const {firstName, email} = useSelector<GeneralState, Profile>((state) => state.profile);
+
+  const nameIsValid = Validator.validateName(firstName);
   const emailIsValid = Validator.validateEmail(email);
   const doneButtonDisabled = !nameIsValid || !emailIsValid;
 
@@ -21,25 +20,18 @@ export function OnboardingScreen() {
       return;
     }
 
-    await AsyncStorage.setItem('name', name);
+    await AsyncStorage.setItem('firstName', firstName);
     await AsyncStorage.setItem('email', email);
 
-    dispatch(setNameState(name));
-    dispatch(setEmailState(email));
+    dispatch(setOnboardingCompleted(true));
   };
 
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.body}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>First Name</Text>
-          <TextInput style={styles.input} autoComplete='name' placeholder='Enter your first name' placeholderTextColor={placeHolderTextColor} value={name} onChangeText={setName} />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Email</Text>
-          <TextInput style={styles.input} autoComplete='name' placeholder='Enter your email' placeholderTextColor={placeHolderTextColor} value={email} onChangeText={setEmail} />
-        </View>
+        <LemonInput label='First Name' autoComplete='given-name' placeholder='Enter your first name' value={firstName} onChangeText={(text) => dispatch(setFirstName(text))} />
+        <LemonInput label='Email' autoComplete='email' placeholder='Enter your email' value={email} onChangeText={(text) => dispatch(setEmail(text))} />
       </View>
       <Footer style={styles.footer}>
         <Pressable style={[styles.doneButton, doneButtonDisabled && styles.doneButtonDisabled]} disabled={doneButtonDisabled} onPress={finishOnboarding}>
@@ -49,8 +41,6 @@ export function OnboardingScreen() {
     </View>
   );
 }
-
-const placeHolderTextColor = '#505050';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,25 +53,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#CBD2D9',
   },
-  inputContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
-    marginVertical: 20,
-  },
-  inputLabel: {
-    fontSize: 18,
-    marginBottom: 5,
-    marginLeft: 10,
-    fontFamily: 'Karla',
-  },
-  input: {
-    height: 50,
-    paddingHorizontal: 20,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: '#495E57',
-    fontSize: 16,
-    fontFamily: 'Karla',
+  avatar: {
+    height: 60,
+    width: 60,
+    marginRight: 20,
+    borderRadius: 30,
   },
   footer: {
     height: 75,

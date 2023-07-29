@@ -1,6 +1,8 @@
+import {Notifications} from './notifications';
+import {Profile} from './profile';
+
 export type GeneralState = {
-  profile: {
-    name: string;
-    email: string;
-  };
+  profile: Profile;
+  notifications: Notifications;
+  onboardingCompleted: boolean;
 };

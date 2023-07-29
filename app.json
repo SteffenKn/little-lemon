@@ -23,6 +23,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Little Lemon accesses your photos to use them as your profile picture."
+        }
+      ]
+    ]
   }
 }

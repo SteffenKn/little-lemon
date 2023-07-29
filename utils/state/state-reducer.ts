@@ -1,22 +1,26 @@
-import {ActionTypes} from './action-types';
-import {Action} from './state-action';
 import {GeneralState} from '@types';
 
-const initialState = {
-  profile: {
-    name: '',
-    email: '',
-  },
-};
+import {ActionTypes} from './action-types';
+import {initialState} from './initial-state';
+import {Action} from './state-action';
 
 export const stateReducer = (state: GeneralState = initialState, action: Action) => {
   switch (action.type) {
-    case ActionTypes.SET_NAME:
+    case ActionTypes.CLEAR_STATE:
+      return initialState;
+    case ActionTypes.SET_STATE:
+      return action.payload;
+    case ActionTypes.SET_ONBOARDING_COMPLETED:
+      return {
+        ...state,
+        onboardingCompleted: action.payload,
+      };
+    case ActionTypes.SET_FIRST_NAME:
       return {
         ...state,
         profile: {
           ...state.profile,
-          name: action.payload,
+          firstName: action.payload,
         },
       };
     case ActionTypes.SET_EMAIL:
@@ -26,6 +30,35 @@ export const stateReducer = (state: GeneralState = initialState, action: Action)
           ...state.profile,
           email: action.payload,
         },
+      };
+    case ActionTypes.SET_LAST_NAME:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          lastName: action.payload,
+        },
+      };
+    case ActionTypes.SET_AVATAR:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          avatar: action.payload,
+        },
+      };
+    case ActionTypes.SET_PHONE:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          phone: action.payload,
+        },
+      };
+    case ActionTypes.SET_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.payload,
       };
     default:
       return state;
