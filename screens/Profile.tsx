@@ -1,12 +1,12 @@
-import {Pressable, StyleSheet, ScrollView, Text, View, KeyboardAvoidingView, Platform} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import {Pressable, StyleSheet, ScrollView, Text, View, KeyboardAvoidingView, Platform, Alert} from 'react-native';
+import {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
+import * as ImagePicker from 'expo-image-picker';
 
 import {Avatar, Footer, Header, LemonCheckbox, LemonInput, LemonMaskInput} from '@components';
-import {setLastName, setAvatar, setEmail, setPhone, setFirstName, setNotifications, clearState, recoverState} from '@utils';
+import {setLastName, setAvatar, setEmail, setPhone, setFirstName, setNotifications, clearState, recoverState, Validator} from '@utils';
 import {GeneralState, Notifications, Profile} from '@types';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function ProfileScreen() {
   const dispatch = useDispatch();
@@ -39,6 +39,26 @@ export function ProfileScreen() {
   };
 
   const saveChanges = async () => {
+    const firstNameIsValid = Validator.validateName(profile.firstName);
+    const emailIsValid = Validator.validateEmail(profile.email);
+
+    if (!firstNameIsValid) {
+      Alert.alert('First name is invalid');
+      return;
+    }
+    if (!emailIsValid) {
+      Alert.alert('Email is invalid');
+      return;
+    }
+
+    if (profile.phone.length > 0) {
+      const phoneIsValid = Validator.validatePhone(profile.phone);
+      if (!phoneIsValid) {
+        Alert.alert('Phone number is invalid');
+        return;
+      }
+    }
+
     await AsyncStorage.setItem('firstName', profile.firstName);
     await AsyncStorage.setItem('lastName', profile.lastName);
     await AsyncStorage.setItem('email', profile.email);

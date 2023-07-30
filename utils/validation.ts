@@ -18,7 +18,27 @@ function validateEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
+function validatePhone(phone: string) {
+  const phoneIsEmpty = !phone || phone.trim().length === 0;
+  if (phoneIsEmpty) {
+    return false;
+  }
+
+  const phoneIsNumeric = !isNaN(Number(phone));
+  if (!phoneIsNumeric) {
+    return false;
+  }
+
+  const phoneIsCorrectLength = phone.length === 10;
+  if (!phoneIsCorrectLength) {
+    return false;
+  }
+
+  return true;
+}
+
 export const Validator = {
   validateName,
   validateEmail,
+  validatePhone,
 };
