@@ -35,7 +35,10 @@ export function HomeBanner() {
           <Image source={require('../img/hero.png')} style={styles.image} />
         </View>
       </View>
-      <TextInput style={styles.input} value={query} onChangeText={handleSearchChange} />
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input} value={query} onChangeText={handleSearchChange} />
+        <MaterialCommunityIcons name='magnify' size={24} style={styles.searchIcon} color='black' />
+      </View>
     </View>
   );
 }
@@ -82,11 +85,23 @@ const styles = StyleSheet.create({
     height: 125,
     borderRadius: 10,
   },
-  input: {
+  inputContainer: {
     height: 40,
+  },
+  input: {
+    height: '100%',
     width: '100%',
     backgroundColor: '#EDEFEF',
+    fontSize: 18,
+    fontFamily: 'Karla',
     borderRadius: 10,
-    paddingHorizontal: 10,
+    paddingRight: 15,
+    paddingLeft: 45,
+  },
+  searchIcon: {
+    position: 'absolute',
+    top: '50%',
+    left: 10,
+    transform: [{translateY: -12}],
   },
 });
