@@ -31,7 +31,14 @@ export function OnboardingScreen() {
       <Header />
       <View style={styles.body}>
         <LemonInput label='First Name' autoComplete='given-name' placeholder='Enter your first name' value={firstName} onChangeText={(text) => dispatch(setFirstName(text))} />
-        <LemonInput label='Email' autoComplete='email' placeholder='Enter your email' value={email} onChangeText={(text) => dispatch(setEmail(text))} />
+        <LemonInput
+          label='Email'
+          autoComplete='email'
+          placeholder='Enter your email'
+          keyboardType='email-address'
+          value={email}
+          onChangeText={(text) => dispatch(setEmail(text))}
+        />
       </View>
       <Footer style={styles.footer}>
         <Pressable style={[styles.doneButton, doneButtonDisabled && styles.doneButtonDisabled]} disabled={doneButtonDisabled} onPress={finishOnboarding}>

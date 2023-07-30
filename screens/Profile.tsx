@@ -124,6 +124,7 @@ export function ProfileScreen() {
             label='Email'
             autoComplete='email'
             placeholder='Enter your email'
+            keyboardType='email-address'
             value={profile.email}
             onChangeText={(text) => dispatch(setEmail(text))}
           />
@@ -133,6 +134,7 @@ export function ProfileScreen() {
             autoComplete='tel'
             placeholder='Enter your phone number'
             mask='(999) 999-9999'
+            keyboardType='phone-pad'
             value={profile.phone}
             onChangeText={(_, raw) => dispatch(setPhone(raw))}
           />
