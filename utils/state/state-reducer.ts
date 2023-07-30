@@ -60,6 +60,22 @@ export const stateReducer = (state: GeneralState = initialState, action: Action)
         ...state,
         notifications: action.payload,
       };
+    case ActionTypes.SET_MENU_LIST:
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          menuList: action.payload,
+        },
+      };
+    case ActionTypes.SET_CATEGORY_FILTER:
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          categoryFilter: action.payload,
+        },
+      };
     default:
       return state;
   }

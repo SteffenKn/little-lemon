@@ -7,6 +7,7 @@
       "@utils": ["utils/index.ts"],
       "@components": ["components/index.ts"],
       "@screens": ["screens/index.ts"]
-    }
+    },
+    "useUnknownInCatchVariables": false
   }
 }

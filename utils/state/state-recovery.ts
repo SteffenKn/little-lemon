@@ -31,6 +31,10 @@ export async function recoverState(dispatch: Dispatch<AnyAction>) {
           newsletter: false,
         },
     onboardingCompleted: onboardingCompleted,
+    menu: {
+      categoryFilter: [],
+      menuList: [],
+    },
   };
 
   dispatch(setState(state));

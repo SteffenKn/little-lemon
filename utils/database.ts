@@ -17,41 +17,30 @@ async function createTable() {
   });
 }
 
-async function getMenuItems(): Promise<Array<MenuItem>> {
+async function getMenuItems(): Promise<MenuItem[]> {
   return new Promise((resolve) => {
     db.transaction((tx) => {
       tx.executeSql('select * from menu', [], (_, {rows}) => {
-        const menu = rows._array.map((item) => ({
-          ...item,
-          imageUri: item.imageUri ? item.imageUri : undefined,
-        }));
-
-        resolve(menu);
+        resolve(rows._array);
       });
     });
   });
 }
 
-function saveMenuItems(menuItems: Array<MenuItem>) {
+function saveMenuItems(menuItems: MenuItem[]) {
   db.transaction((tx) => {
     const valuesToInsert = menuItems.map((item) => {
-      return `("${item.name}", "${item.price}", "${item.description}", "${item.image}", "${item.category}")`;
+      return `("${item.name}", "${item.price}", "${item.description}", "${item.image}", "${item.category}", ${item.imageUri ? `"${item.imageUri}"` : null})`;
     });
 
-    tx.executeSql(`INSERT INTO menu (name, price, description, image, category) VALUES ${valuesToInsert.join(', ')}`);
+    tx.executeSql(`INSERT INTO menu (name, price, description, image, category, imageUri) VALUES ${valuesToInsert.join(', ')}`);
   });
 }
 
-function updateImage(name: string, imageUri: string) {
-  db.transaction((tx) => {
-    tx.executeSql(`UPDATE menu SET imageUri = (?) WHERE name = (?)`, [imageUri, name]);
-  });
-}
-
-async function filterByQueryAndCategories(query: string, activeCategories: Array<string>) {
+async function filterByQueryAndCategories(query: string, activeCategories: string[]): Promise<MenuItem[]> {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql(`SELECT * FROM menuitems WHERE category IN (${activeCategories.map((_) => `?`)}) AND title LIKE (?)`, [...activeCategories, `%${query}%`], (_, {rows}) => {
+      tx.executeSql(`SELECT * FROM menu WHERE category IN (${activeCategories.map((_) => `?`)}) AND name LIKE (?)`, [...activeCategories, `%${query}%`], (_, {rows}) => {
         resolve(rows._array);
       });
     }, reject);
@@ -62,6 +51,5 @@ export const Database = {
   createTable,
   getMenuItems,
   saveMenuItems,
-  updateImage,
   filterByQueryAndCategories,
 };

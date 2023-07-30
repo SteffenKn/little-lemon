@@ -1,4 +1,4 @@
-import {GeneralState, Notifications} from '@types';
+import {GeneralState, MenuItem, Notifications} from '@types';
 
 import {ActionTypes} from './action-types';
 
@@ -47,6 +47,16 @@ export const setNotifications = (notifications: Notifications | null) => ({
   payload: notifications,
 });
 
+export const SetMenuList = (menuList: MenuItem[]) => ({
+  type: ActionTypes.SET_MENU_LIST,
+  payload: menuList,
+});
+
+export const setCategoryFilter = (categories: string[]) => ({
+  type: ActionTypes.SET_CATEGORY_FILTER,
+  payload: categories,
+});
+
 export type SetStateAction = ReturnType<typeof setState>;
 export type ClearStateAction = ReturnType<typeof clearState>;
 export type SetFirstNameAction = ReturnType<typeof setFirstName>;
@@ -55,5 +65,17 @@ export type SetLastNameAction = ReturnType<typeof setLastName>;
 export type SetAvatarAction = ReturnType<typeof setAvatar>;
 export type SetPhoneAction = ReturnType<typeof setPhone>;
 export type SetNotificationsAction = ReturnType<typeof setNotifications>;
+export type SetMenuListAction = ReturnType<typeof SetMenuList>;
+export type SetCategoryFilterAction = ReturnType<typeof setCategoryFilter>;
 
-export type Action = SetStateAction | ClearStateAction | SetFirstNameAction | SetEmailAction | SetLastNameAction | SetAvatarAction | SetPhoneAction | SetNotificationsAction;
+export type Action =
+  | SetStateAction
+  | ClearStateAction
+  | SetFirstNameAction
+  | SetEmailAction
+  | SetLastNameAction
+  | SetAvatarAction
+  | SetPhoneAction
+  | SetNotificationsAction
+  | SetMenuListAction
+  | SetCategoryFilterAction;

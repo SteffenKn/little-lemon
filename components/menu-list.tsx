@@ -1,100 +1,51 @@
 import {useEffect, useState} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 
-import {Client, Database} from '@utils';
-import {MenuItem} from '@types';
+import {GeneralState, MenuItem} from '@types';
+import {Database, useUpdateEffect} from '@utils';
 
-export function MenuList() {
-  const [menu, setMenu] = useState<MenuItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingImages, setIsLoadingImages] = useState(true);
+type Props = {
+  categories: string[];
+  menu: MenuItem[];
+  isLoadingImages: boolean;
+};
 
-  useEffect(() => {
-    (async () => {
-      await Database.createTable();
-      let loadedMenu: MenuItem[] | undefined = await Database.getMenuItems();
+export function MenuList({menu, isLoadingImages, categories}: Props) {
+  const [menuToDisplay, setMenuToDisplay] = useState<MenuItem[]>([]);
 
-      if (loadedMenu.length === 0) {
-        loadedMenu = await Client.loadMenu();
-
-        if (!loadedMenu) {
-          return;
-        }
-
-        Database.saveMenuItems(loadedMenu);
-      }
-
-      setMenu(loadedMenu);
-      setIsLoading(false);
-    })();
-  }, []);
+  const selectedCategories = useSelector<GeneralState, string[]>((state) => state.menu.categoryFilter);
 
   useEffect(() => {
-    (async () => {
-      if (!isLoadingImages) setIsLoadingImages(true);
+    if (selectedCategories.length > 0) {
+      return;
+    }
 
-      const menuEntriesWithoutImage = menu.filter((item) => item.imageUri === undefined);
-
-      if (menuEntriesWithoutImage.length === 0) {
-        setIsLoadingImages(false);
-        return;
-      }
-
-      const images = await Promise.all(
-        menuEntriesWithoutImage.map(async (item) => {
-          const image = await Client.loadImage(item.image);
-          return image;
-        }),
-      );
-
-      const menuWithImages = menuEntriesWithoutImage.map((item, index): MenuItem => {
-        return {
-          ...item,
-          imageUri: images[index],
-        };
-      });
-
-      const newMenu = menu.map((item) => {
-        const itemWithImage = menuWithImages.find((i) => i.name === item.name);
-        if (itemWithImage) {
-          return itemWithImage;
-        }
-
-        return item;
-      });
-
-      setMenu(newMenu);
-
-      setIsLoadingImages(false);
-
-      menuWithImages
-        .filter((item) => item.imageUri)
-        .forEach((item) => {
-          Database.updateImage(item.name, item.imageUri!);
-        });
-    })();
+    setMenuToDisplay(menu);
   }, [menu]);
 
-  if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    );
-  }
+  useUpdateEffect(() => {
+    (async () => {
+      try {
+        const categoriesToFilter = selectedCategories.length > 0 ? selectedCategories : categories;
 
-  return <FlatList data={menu} renderItem={({item}) => <MenuEntry item={item} isLoadingImages={isLoadingImages} />} keyExtractor={(item) => item.name} />;
+        const menuItems = await Database.filterByQueryAndCategories('', categoriesToFilter);
+
+        setMenuToDisplay(menuItems);
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+    })();
+  }, [selectedCategories]);
+
+  return (
+    <FlatList style={styles.list} data={menuToDisplay} renderItem={({item}) => <MenuEntry item={item} isLoadingImages={isLoadingImages} />} keyExtractor={(item) => item.name} />
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loadingText: {
-    fontSize: 20,
-    fontFamily: 'Karla',
+  list: {
+    width: '100%',
   },
 });
 
@@ -114,7 +65,7 @@ function MenuEntry({item, isLoadingImages}: MenuEntryProps) {
         <Text style={menuEntryStyles.price}>${item.price}</Text>
       </View>
       <View style={menuEntryStyles.imageContainer}>
-        {item.imageUri ? (
+        {item.imageUri != null ? (
           <Image style={menuEntryStyles.image} source={{uri: item.imageUri}} resizeMode='cover' />
         ) : isLoadingImages ? (
           <Text style={menuEntryStyles.loadingText}>Loading...</Text>

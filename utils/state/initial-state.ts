@@ -15,4 +15,8 @@ export const initialState: GeneralState = {
     newsletter: false,
   },
   onboardingCompleted: false,
+  menu: {
+    categoryFilter: [],
+    menuList: [],
+  },
 };

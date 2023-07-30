@@ -244,12 +244,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   logoutButton: {
-    fontFamily: 'Karla-Bold',
     width: '90%',
     backgroundColor: '#F4CE14',
     borderColor: '#DDAF53',
   },
   logoutButtonText: {
+    fontFamily: 'Karla-Bold',
+    fontSize: 16,
     color: '#333333',
   },
   discardButton: {
