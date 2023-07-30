@@ -18,16 +18,6 @@ async function loadMenu(): Promise<MenuItem[] | undefined> {
 
 async function loadImage(imageFileName: string) {
   const imageUrl = `https://github.com/Meta-Mobile-Developer-PC/Working-With-Data-API/blob/main/images/${imageFileName}?raw=true`;
-  // const response = await fetch(`https://github.com/Meta-Mobile-Developer-PC/Working-With-Data-API/blob/main/images/${imageFileName}?raw=true`);
-
-  // if (!response.ok) {
-  //   if (response.status === 404) {
-  //     return null;
-  //   }
-
-  //   Alert.alert(`Error (${response.status})`, `Something went wrong loading the menu images`);
-  //   return;
-  // }
 
   const res = await FileSystem.downloadAsync(imageUrl, FileSystem.documentDirectory + imageFileName);
 
