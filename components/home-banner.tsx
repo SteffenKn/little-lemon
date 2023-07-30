@@ -10,8 +10,8 @@ export function HomeBanner() {
 
   const [query, setQuery] = useState('');
 
-  const lookup = useCallback((q: string) => {
-    setQuery(q);
+  const lookup = useCallback((text: string) => {
+    dispatch(setMenuQuery(text));
   }, []);
 
   const debouncedLookup = useMemo(() => debounce(lookup, 500), [lookup]);
