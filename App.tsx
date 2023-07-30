@@ -7,7 +7,7 @@ import {Provider as StateProvider, useDispatch, useSelector} from 'react-redux';
 import {RootSiblingParent} from 'react-native-root-siblings';
 
 import {store, recoverState} from '@utils';
-import {GeneralState, Profile} from '@types';
+import {GeneralState} from '@types';
 import {HomeScreen, OnboardingScreen, ProfileScreen, SplashScreen} from '@screens';
 
 const Stack = createNativeStackNavigator();
