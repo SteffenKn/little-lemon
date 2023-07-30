@@ -20,6 +20,7 @@ export function MenuView() {
       if (loadedMenu.length > 0) {
         setMenu(loadedMenu);
         setIsLoading(false);
+        setIsLoadingImages(false);
 
         return;
       }
