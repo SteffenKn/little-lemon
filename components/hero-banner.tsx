@@ -36,7 +36,7 @@ export function HeroBanner() {
         </View>
       </View>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} value={query} onChangeText={handleSearchChange} />
+        <TextInput style={styles.input} value={query} onChangeText={handleSearchChange} placeholder='Search for dish' placeholderTextColor='#505050' />
         <MaterialCommunityIcons name='magnify' size={24} style={styles.searchIcon} color='black' />
       </View>
     </View>
