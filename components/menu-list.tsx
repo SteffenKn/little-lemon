@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 
-import {Client} from '@utils';
+import {Client, Database} from '@utils';
 import {MenuItem} from '@types';
 
 export function MenuList() {
@@ -11,10 +11,17 @@ export function MenuList() {
 
   useEffect(() => {
     (async () => {
-      const loadedMenu = await Client.loadMenu();
+      await Database.createTable();
+      let loadedMenu: MenuItem[] | undefined = await Database.getMenuItems();
 
-      if (!loadedMenu) {
-        return;
+      if (loadedMenu.length === 0) {
+        loadedMenu = await Client.loadMenu();
+
+        if (!loadedMenu) {
+          return;
+        }
+
+        Database.saveMenuItems(loadedMenu);
       }
 
       setMenu(loadedMenu);
@@ -26,9 +33,10 @@ export function MenuList() {
     (async () => {
       if (!isLoadingImages) setIsLoadingImages(true);
 
-      const menuEntriesWithoutImage = menu.filter((item) => item.imageData === undefined);
+      const menuEntriesWithoutImage = menu.filter((item) => item.imageUri === undefined);
 
       if (menuEntriesWithoutImage.length === 0) {
+        setIsLoadingImages(false);
         return;
       }
 
@@ -39,10 +47,10 @@ export function MenuList() {
         }),
       );
 
-      const menuWithImages = menuEntriesWithoutImage.map((item, index) => {
+      const menuWithImages = menuEntriesWithoutImage.map((item, index): MenuItem => {
         return {
           ...item,
-          imageData: images[index],
+          imageUri: images[index],
         };
       });
 
@@ -58,6 +66,12 @@ export function MenuList() {
       setMenu(newMenu);
 
       setIsLoadingImages(false);
+
+      menuWithImages
+        .filter((item) => item.imageUri)
+        .forEach((item) => {
+          Database.updateImage(item.name, item.imageUri!);
+        });
     })();
   }, [menu]);
 
@@ -100,8 +114,8 @@ function MenuEntry({item, isLoadingImages}: MenuEntryProps) {
         <Text style={menuEntryStyles.price}>${item.price}</Text>
       </View>
       <View style={menuEntryStyles.imageContainer}>
-        {item.imageData ? (
-          <Image style={menuEntryStyles.image} source={{uri: item.imageData}} resizeMode='cover' />
+        {item.imageUri ? (
+          <Image style={menuEntryStyles.image} source={{uri: item.imageUri}} resizeMode='cover' />
         ) : isLoadingImages ? (
           <Text style={menuEntryStyles.loadingText}>Loading...</Text>
         ) : (

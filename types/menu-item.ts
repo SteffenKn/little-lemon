@@ -4,5 +4,5 @@ export type MenuItem = {
   description: string;
   image: string;
   category: string;
-  imageData?: string | null;
+  imageUri?: string | null;
 };

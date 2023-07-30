@@ -1,4 +1,5 @@
 export * from './state/index';
 
 export * from './client';
+export * from './database';
 export * from './validation';
