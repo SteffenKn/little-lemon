@@ -15,6 +15,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
+    "@types/lodash.debounce": "^4.0.7",
     "babel-plugin-module-resolver": "^5.0.0",
     "expo": "~49.0.4",
     "expo-checkbox": "~2.4.0",

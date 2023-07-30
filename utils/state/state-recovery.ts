@@ -34,6 +34,7 @@ export async function recoverState(dispatch: Dispatch<AnyAction>) {
     menu: {
       categoryFilter: [],
       menuList: [],
+      query: '',
     },
   };
 

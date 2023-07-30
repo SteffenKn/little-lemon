@@ -9,5 +9,6 @@ export type GeneralState = {
   menu: {
     categoryFilter: string[];
     menuList: MenuItem[];
+    query: string;
   };
 };

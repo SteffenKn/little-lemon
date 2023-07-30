@@ -18,5 +18,6 @@ export const initialState: GeneralState = {
   menu: {
     categoryFilter: [],
     menuList: [],
+    query: '',
   },
 };

@@ -57,6 +57,11 @@ export const setCategoryFilter = (categories: string[]) => ({
   payload: categories,
 });
 
+export const setMenuQuery = (query: string) => ({
+  type: ActionTypes.SET_MENU_QUERY,
+  payload: query,
+});
+
 export type SetStateAction = ReturnType<typeof setState>;
 export type ClearStateAction = ReturnType<typeof clearState>;
 export type SetFirstNameAction = ReturnType<typeof setFirstName>;
@@ -67,6 +72,7 @@ export type SetPhoneAction = ReturnType<typeof setPhone>;
 export type SetNotificationsAction = ReturnType<typeof setNotifications>;
 export type SetMenuListAction = ReturnType<typeof SetMenuList>;
 export type SetCategoryFilterAction = ReturnType<typeof setCategoryFilter>;
+export type SetMenuQueryAction = ReturnType<typeof setMenuQuery>;
 
 export type Action =
   | SetStateAction
@@ -78,4 +84,5 @@ export type Action =
   | SetPhoneAction
   | SetNotificationsAction
   | SetMenuListAction
-  | SetCategoryFilterAction;
+  | SetCategoryFilterAction
+  | SetMenuQueryAction;

@@ -76,6 +76,14 @@ export const stateReducer = (state: GeneralState = initialState, action: Action)
           categoryFilter: action.payload,
         },
       };
+    case ActionTypes.SET_MENU_QUERY:
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          query: action.payload,
+        },
+      };
     default:
       return state;
   }

@@ -15,6 +15,7 @@ export function MenuList({menu, isLoadingImages, categories}: Props) {
   const [menuToDisplay, setMenuToDisplay] = useState<MenuItem[]>([]);
 
   const selectedCategories = useSelector<GeneralState, string[]>((state) => state.menu.categoryFilter);
+  const menuQuery = useSelector<GeneralState, string>((state) => state.menu.query);
 
   useEffect(() => {
     if (selectedCategories.length > 0) {
@@ -29,14 +30,14 @@ export function MenuList({menu, isLoadingImages, categories}: Props) {
       try {
         const categoriesToFilter = selectedCategories.length > 0 ? selectedCategories : categories;
 
-        const menuItems = await Database.filterByQueryAndCategories('', categoriesToFilter);
+        const menuItems = await Database.filterByQueryAndCategories(menuQuery, categoriesToFilter);
 
         setMenuToDisplay(menuItems);
       } catch (error) {
         Alert.alert(error.message);
       }
     })();
-  }, [selectedCategories]);
+  }, [selectedCategories, menuQuery]);
 
   return (
     <FlatList style={styles.list} data={menuToDisplay} renderItem={({item}) => <MenuEntry item={item} isLoadingImages={isLoadingImages} />} keyExtractor={(item) => item.name} />
