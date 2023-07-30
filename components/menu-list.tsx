@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
-import {Alert, FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, FlatList, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import {Image} from 'expo-image';
 
 import {GeneralState, MenuItem} from '@types';
 import {Database, useUpdateEffect} from '@utils';

@@ -1,4 +1,5 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {Image} from 'expo-image';
 
 export function SplashScreen() {
   return (

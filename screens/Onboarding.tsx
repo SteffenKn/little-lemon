@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, Image, Pressable} from 'react-native';
+import {View, StyleSheet, Text, Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 

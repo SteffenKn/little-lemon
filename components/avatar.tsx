@@ -1,5 +1,6 @@
-import {Image, StyleSheet, View, ViewStyle} from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 import {useSelector} from 'react-redux';
+import {Image} from 'expo-image';
 
 import {AvatarMock} from './avatar-mock';
 import {GeneralState} from '../types/general-state';

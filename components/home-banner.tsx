@@ -1,7 +1,9 @@
 import {useCallback, useMemo, useState} from 'react';
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Image} from 'expo-image';
 import {useDispatch} from 'react-redux';
 import debounce from 'lodash.debounce';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 import {setMenuQuery} from '@utils';
 

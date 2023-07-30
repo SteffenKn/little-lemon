@@ -1,9 +1,11 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {AntDesign} from '@expo/vector-icons';
-import {Avatar} from './avatar';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Image} from 'expo-image';
+
+import {Avatar} from './avatar';
 
 export function Header({showBack = false, showAvatar = false}) {
   const inset = useSafeAreaInsets();
