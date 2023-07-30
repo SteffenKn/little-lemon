@@ -3,7 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Avatar, Footer, Header, LemonCheckbox, LemonInput, LemonMaskInput} from '@components';
-import {setLastName, setAvatar, setEmail, setPhone, setFirstName, setNotifications, clearState} from '@utils';
+import {setLastName, setAvatar, setEmail, setPhone, setFirstName, setNotifications, clearState, recoverState} from '@utils';
 import {GeneralState, Notifications, Profile} from '@types';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,7 +34,9 @@ export function ProfileScreen() {
     dispatch(clearState());
   };
 
-  const discardChanges = async () => {};
+  const discardChanges = async () => {
+    recoverState(dispatch);
+  };
 
   const saveChanges = async () => {
     await AsyncStorage.setItem('firstName', profile.firstName);
