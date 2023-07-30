@@ -2,9 +2,10 @@ import {GeneralState} from '@types';
 
 import {ActionTypes} from './action-types';
 import {initialState} from './initial-state';
-import {Action} from './state-action';
+import {Reducer} from 'redux';
+import {PayloadAction} from '@reduxjs/toolkit';
 
-export const stateReducer = (state: GeneralState = initialState, action: Action) => {
+export const stateReducer: Reducer<GeneralState, PayloadAction<any>> = (state: GeneralState = initialState, action: PayloadAction<any>) => {
   switch (action.type) {
     case ActionTypes.CLEAR_STATE:
       return initialState;
