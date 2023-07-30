@@ -1,12 +1,12 @@
 import {StyleSheet, Text, View} from 'react-native';
 
-import {Header, HomeBanner, MenuView} from '@components';
+import {Header, HeroBanner, MenuView} from '@components';
 
 export function HomeScreen() {
   return (
     <View style={styles.container}>
       <Header showAvatar={true} />
-      <HomeBanner />
+      <HeroBanner />
       <Text style={styles.headline}>ORDER FOR DELIVERY!</Text>
       <MenuView />
     </View>

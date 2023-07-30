@@ -7,7 +7,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 import {setMenuQuery} from '@utils';
 
-export function HomeBanner() {
+export function HeroBanner() {
   const dispatch = useDispatch();
 
   const [query, setQuery] = useState('');
