@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
-
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useFonts} from 'expo-font';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider as StateProvider, useDispatch, useSelector} from 'react-redux';
+import {RootSiblingParent} from 'react-native-root-siblings';
 
 import {store, recoverState} from '@utils';
 import {GeneralState, Profile} from '@types';
@@ -58,5 +58,11 @@ export function Main() {
 }
 
 export default function App() {
-  return <StateProvider store={store}>{<Main />}</StateProvider>;
+  return (
+    <StateProvider store={store}>
+      <RootSiblingParent>
+        <Main />
+      </RootSiblingParent>
+    </StateProvider>
+  );
 }

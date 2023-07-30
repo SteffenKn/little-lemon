@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
+import Toast from 'react-native-root-toast';
 
 import {Avatar, Footer, Header, LemonCheckbox, LemonInput, LemonMaskInput} from '@components';
 import {setLastName, setAvatar, setEmail, setPhone, setFirstName, setNotifications, clearState, recoverState, Validator} from '@utils';
@@ -80,6 +81,8 @@ export function ProfileScreen() {
     }
 
     setProfileChanged(false);
+
+    Toast.show('Profile was saved successfully', {position: 75});
   };
 
   return (
