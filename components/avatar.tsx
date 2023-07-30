@@ -1,9 +1,7 @@
-import React, {useEffect} from 'react';
 import {Image, StyleSheet, View, ViewStyle} from 'react-native';
+import {useSelector} from 'react-redux';
 
 import {AvatarMock} from './avatar-mock';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSelector} from 'react-redux';
 import {GeneralState} from '../types/general-state';
 
 type Props = {
