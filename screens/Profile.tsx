@@ -10,9 +10,17 @@ import {GeneralState, Notifications, Profile} from '@types';
 
 export function ProfileScreen() {
   const dispatch = useDispatch();
+  const [profileChanged, setProfileChanged] = useState(false);
 
   const profile = useSelector<GeneralState, Profile>((state) => state.profile);
   const notifications = useSelector<GeneralState, Notifications>((state) => state.notifications);
+
+  useEffect(() => {
+    (async () => {
+      const somethingChanged = await isSomethingChanged(profile, notifications);
+      setProfileChanged(somethingChanged);
+    })();
+  }, [profile, notifications]);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -71,8 +79,7 @@ export function ProfileScreen() {
       await AsyncStorage.removeItem('avatar');
     }
 
-    // TODO: Add feedback
-    console.log('done');
+    setProfileChanged(false);
   };
 
   return (
@@ -143,7 +150,7 @@ export function ProfileScreen() {
           <Pressable style={[styles.button, styles.discardButton]} onPress={discardChanges}>
             <Text style={styles.discardButtonText}>Discard Changes</Text>
           </Pressable>
-          <Pressable style={[styles.button, styles.saveButton]} onPress={saveChanges}>
+          <Pressable style={[styles.button, styles.saveButton, !profileChanged && styles.saveButtonDisabled]} onPress={saveChanges} disabled={!profileChanged}>
             <Text style={styles.saveButtonText}>Save Changes</Text>
           </Pressable>
         </View>
@@ -286,4 +293,27 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: 'white',
   },
+  saveButtonDisabled: {
+    opacity: 0.3,
+  },
 });
+
+async function isSomethingChanged(profile: Profile, notifications: Notifications) {
+  const storedFirstName = await AsyncStorage.getItem('firstName');
+  const storedLastName = await AsyncStorage.getItem('lastName');
+  const storedEmail = await AsyncStorage.getItem('email');
+  const storedPhone = await AsyncStorage.getItem('phone');
+  const storedAvatar = await AsyncStorage.getItem('avatar');
+  const storedNotifications = await AsyncStorage.getItem('notifications');
+
+  const firstNameChanged = (!!storedFirstName || !!profile.firstName) && storedFirstName !== profile.firstName;
+  const lastNameChanged = (!!storedLastName || !!profile.lastName) && storedLastName !== profile.lastName;
+  const emailChanged = (!!storedEmail || !!profile.email) && storedEmail !== profile.email;
+  const phoneChanged = (!!storedPhone || !!profile.phone) && storedPhone !== profile.phone;
+  const avatarChanged = (!!storedAvatar || !!profile.avatar) && storedAvatar !== profile.avatar;
+  const notificationsChanged = !!storedNotifications && storedNotifications !== JSON.stringify(notifications);
+
+  const somethingIsChanged = firstNameChanged || lastNameChanged || emailChanged || phoneChanged || avatarChanged || notificationsChanged;
+
+  return somethingIsChanged;
+}
